@@ -1,43 +1,39 @@
 import java.io.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
-class FileParser {
-	
-	private File receiptToParse;
-    private FileParser newFile;
+public class FileParser {
+    
+	// Constructor
+    public FileParser (File txtInput) {
+		parserController(txtInput);
+        System.out.println("Done parsing!");
+    }
 
-	public void FileParser (File receipt) {
-		receiptToParse = receipt;
-		FileParser newFile = new FileParser();
-		newFile.parserController(receiptToParse);
-        System.out.println("test");
-	}
-
-    public void parserController(File receiptToParse) {
+    public void parserController(File txtInput) {
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(receiptToParse));
+            BufferedReader reader = new BufferedReader(new FileReader(txtInput));
             String strLine;
-            ArrayList<String> updArray;
+//            ArrayList<String> updArray;
           
             while ((strLine = reader.readLine()) != null) {
-                System.out.println("Test input from file:");
-                System.out.println(strLine);
-
+            	
+            	/* Convert string to array of strings */
                 String[] splitArray = toStrArray(strLine);
-                System.out.println(splitArray[0]);
 
-                updArray = addQty(splitArray);
-                System.out.println(updArray.get(0));
-
+                /* Set first value in array to quantity */
+                int quant = getQuant(splitArray);
+                
+                /* Convert description values into a string */
                 String desc = formatDesc(splitArray);
-                System.out.println(desc);
 
-                // ArrayList<String> newArr = addDesc(desc);
-                // System.out.println(newArr.get(0));
-                // System.out.println(newArr.get(1));
-
-                // newFile.addDesc(splitArray);
-                // newFile.addPrice(splitArray);
+                /* Set last value to price */
+                BigDecimal price = getPrice(splitArray);
+                
+                /* Print out the Product */
+                prodToString(quant, desc, price);
+                
+//                Product newProd = new Product(quant, desc, price);
             }
             reader.close();
         } catch (Exception e) {
@@ -48,15 +44,13 @@ class FileParser {
     // Split each word and put it into a string array 
 	public String[] toStrArray(String strLine) {
 		String[] splitArray = strLine.split(" ");
-        System.out.println("testing");   
         return splitArray;
     }
-
-    // arrayList to hold updated array
-    public ArrayList<String> addQty(String[] splitArray) {
-        ArrayList<String> updArray = new ArrayList<String>();
-        updArray.add(splitArray[0]);
-        return updArray;
+    
+    public int getQuant(String[] splitArray) {
+      String strQuant = splitArray[0];
+      int intQuant = Integer.parseInt(strQuant);
+      return intQuant;
     }
 
     // build a string for the description      
@@ -64,25 +58,34 @@ class FileParser {
         StringBuilder builder = new StringBuilder(splitArray.length);
 
         // grab the description and put into a string
-        for (int i = 1; i < splitArray.length - 1; i++){
+        for (int i = 1; i < splitArray.length - 2; i++){
              builder.append(splitArray[i] + " ");
         }
         String desc = builder.toString();
-        System.out.println(desc);
         return desc;
     }
-
-    // grab the description and add to updated array
-    // DOESN'T WORK
-    // public ArrayList<String> addDesc(String desc) {
-    //     updArray.add(desc);
-    //     return updArray;
-    // }
                 
     // add the last item in the original array and add to updated array
-    // public void addPrice(String desc) {
-        // updArray.add(splitArray[splitArray.length -1]);
-    // }
-            
+     public BigDecimal getPrice(String[] splitArray) {
+    	 String strPrice = (splitArray[splitArray.length -1]);
+    	 BigDecimal intPrice = toBigDec(strPrice);
+    	 return intPrice;
+     }
+     
+     // add the last item in the original array and add to updated array
+     public void prodToString(int quant, String desc, BigDecimal price) {
+    	 System.out.println("Product = quant: " + quant + " description: " + desc + "price: " + price);
+     }
+     
+     // turn string into integer
+     public int toInteger(String strNum) {
+         return Integer.parseInt(strNum);
+     }
+     
+     // turn string into a big decimal
+     public BigDecimal toBigDec(String strPrice) {
+         BigDecimal bdPrice = new BigDecimal(strPrice);
+         return bdPrice;
+     }
 }
     		
