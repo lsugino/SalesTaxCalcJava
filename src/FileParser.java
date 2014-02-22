@@ -1,20 +1,17 @@
 import java.io.*;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 
 public class FileParser {
     
 	// Constructor
     public FileParser (File txtInput) {
 		parserController(txtInput);
-        System.out.println("Done parsing!");
     }
 
-    public void parserController(File txtInput) {
+    public void parserController(File textInput) {
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(txtInput));
+            BufferedReader reader = new BufferedReader(new FileReader(textInput));
             String strLine;
-//            ArrayList<String> updArray;
           
             while ((strLine = reader.readLine()) != null) {
             	
@@ -33,7 +30,7 @@ public class FileParser {
                 /* Print out the Product */
                 prodToString(quant, desc, price);
                 
-//                Product newProd = new Product(quant, desc, price);
+                Product newProd = new Product(quant, desc, price);
             }
             reader.close();
         } catch (Exception e) {
