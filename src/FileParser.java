@@ -71,7 +71,7 @@ public class FileParser {
      
      // add the last item in the original array and add to updated array
      public void prodToString(int quant, String desc, BigDecimal price) {
-    	 System.out.println("Product = quant: " + quant + " description: " + desc + "price: " + price);
+    	 System.out.println("Parser product = quant: " + quant + " description: " + desc + "price: " + price);
      }
      
      // turn string into integer
@@ -84,5 +84,6 @@ public class FileParser {
          BigDecimal bdPrice = new BigDecimal(strPrice);
          return bdPrice;
      }
+    
 }
     		

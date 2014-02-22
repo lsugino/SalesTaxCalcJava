@@ -14,13 +14,15 @@ public class Product {
 	private boolean _isTaxable;
 	private ArrayList<String> _exemptProducts;
 	
-	/*	Instantiate a new product with quantity, description, and price	*/
+	/*	Product constructor	*/
 	public Product(int qty, String desc, BigDecimal price) {
 		_qty = qty;
 		_itemDesc = desc;
 		_preTaxPrice = price;
 		getLocality(_itemDesc);
-		System.out.println(_isLocal);
+		getExemptProducts();
+		getTaxability(_itemDesc, _exemptProducts);
+		System.out.println(_isTaxable);
 //		prodInfoToString(_qty, _itemDesc, _preTaxPrice);
 	}
 	
@@ -28,14 +30,31 @@ public class Product {
 		_isLocal = _itemDesc.matches(".*\\bimported\\b.*");
 	}
 //	
-//	public boolean getTaxable(String _itemDesc) {
-//		
-//	}
+	public boolean getTaxability(String _itemDesc, ArrayList<String> _exemptProducts) {
+		int taxable = 0;
+		for (String word : _itemDesc.split("\\s+")){
+			if (_exemptProducts.contains(word)) {
+				taxable++;
+			}
+		}
+		return isTaxable(taxable);
+	}
 	
-//	public ArrayList<String> getExemptProducts {
-//		File receipt = new File("/Users/lsugino/Dropbox/Programming/SalesTax-Calculator/ExemptProducts.txt");
-//		
-//	}
+	public boolean isTaxable(int taxable) {
+		if (taxable == 1) {
+			_isTaxable = true;
+			return true;
+		} else {
+			_isTaxable = false;
+			return false;
+		}
+	}
+	
+	public void getExemptProducts() {
+		File exemptList = new File("/Users/lsugino/Documents/workspace/SalesTaxJava/ExemptProducts");
+		ExemptProductParser exemptToParse = new ExemptProductParser(exemptList);
+		_exemptProducts = exemptToParse.getExemptArray();
+	}
 	
     /* Print product info */
 //    public void prodInfoToString(int _qty, String _itemDesc, BigDecimal _preTaxPrice) {
