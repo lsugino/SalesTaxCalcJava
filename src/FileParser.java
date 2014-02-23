@@ -28,7 +28,7 @@ public class FileParser {
                 BigDecimal price = getPrice(splitArray);
                 
                 /* Print out the Product */
-                prodToString(quant, desc, price);
+//                prodToString(quant, desc, price);
                 
                 Product newProd = new Product(quant, desc, price);
             }

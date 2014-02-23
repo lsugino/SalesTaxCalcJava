@@ -9,7 +9,7 @@ public class Product {
 	private int _qty;
 	private String _itemDesc;
 	private BigDecimal _preTaxPrice;
-	private float _postTaxPrice;
+	private BigDecimal _postTaxPrice;
 	private boolean _isLocal;
 	private boolean _isTaxable;
 	private ArrayList<String> _exemptProducts;
@@ -22,12 +22,12 @@ public class Product {
 		getLocality(_itemDesc);
 		getExemptProducts();
 		getTaxability(_itemDesc, _exemptProducts);
-		System.out.println(_isTaxable);
-//		prodInfoToString(_qty, _itemDesc, _preTaxPrice);
+		TaxCalculator newCalc = new TaxCalculator(qty, _preTaxPrice, _isLocal, _isTaxable);
+		prodInfoToString(_qty, _itemDesc, _preTaxPrice);
 	}
 	
 	public void getLocality(String _itemDesc) {
-		_isLocal = _itemDesc.matches(".*\\bimported\\b.*");
+		if (_itemDesc.matches(".*\\bimported\\b.*")) _isLocal = false; else _isLocal = true; 
 	}
 //	
 	public boolean getTaxability(String _itemDesc, ArrayList<String> _exemptProducts) {
@@ -42,11 +42,11 @@ public class Product {
 	
 	public boolean isTaxable(int taxable) {
 		if (taxable == 1) {
-			_isTaxable = true;
-			return true;
-		} else {
 			_isTaxable = false;
 			return false;
+		} else {
+			_isTaxable = true;
+			return true;
 		}
 	}
 	
@@ -57,10 +57,9 @@ public class Product {
 	}
 	
     /* Print product info */
-//    public void prodInfoToString(int _qty, String _itemDesc, BigDecimal _preTaxPrice) {
-//    	System.out.println("to string Product");
-////    	System.out.println("Product = quant: " + _qty + " description: " + _itemDesc + "price: " + _preTaxPrice);
-//    }
+    public void prodInfoToString(int _qty, String _itemDesc, BigDecimal _preTaxPrice) {
+    	System.out.println("Product = quant: " + _qty + " descrip: " + _itemDesc + "price: " + _preTaxPrice);
+    }
 //    
 	
 //	double totalPrice;
