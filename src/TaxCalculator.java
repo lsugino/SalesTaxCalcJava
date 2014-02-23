@@ -9,22 +9,18 @@ public class TaxCalculator {
 	private BigDecimal baseDomesticTax = new BigDecimal(0.10);
 	private BigDecimal importTax = new BigDecimal(0.05);
 	private BigDecimal nonExemptIntlTax = new BigDecimal(0.15);
-	private BigDecimal roundUpTax = new BigDecimal(1/0.05);
 	
 	/* TaxCalculator constructor */
 	public TaxCalculator(int _qty, BigDecimal _preTaxPrice, boolean _isLocal, boolean _isTaxable) {
 		int taxCode = checkTaxAmt(_isLocal, _isTaxable);
 		System.out.println(taxCode);
 		calcTax(_qty, _preTaxPrice, taxCode);
+		System.out.println(itemTax);
 		
 		//  round up itemTax to .05%	
 //		salesTax = subTotal.multiply(taxRate);
 //		salesTax = round(salesTax);
 //		invoiceTotal = subTotal.add(salesTax);
-		
-//		static BigDecimal round(BigDecimal d) {
-//			return d.setScale(2, RoundingMode.HALF_UP);
-//		}
 		
 		// return item tax, total price, total tax 		
 	}
@@ -52,43 +48,33 @@ public class TaxCalculator {
 	}
 	
 	/* Calculate tax for product */
-	public BigDecimal calcTax(int _qty, BigDecimal _preTaxPrice, int taxCode) { 
-		BigDecimal preItemTax = new BigDecimal(finalAmt);
+	public BigDecimal calcTax(int _qty, BigDecimal _preTaxPrice, int taxCode) { 	
+		BigDecimal tax = new BigDecimal(0.0);
 		if (taxCode == 1) {
-			BigDecimal locTax = calcLocalTaxable(_qty, _preTaxPrice); 
-//			preItemTax.add(locTax);
-			locTax.setScale(2, RoundingMode.HALF_UP);
-			System.out.println(locTax);
-			String finalAmt = locTax.toString();
-			return finalAmt;
+			tax = calcLocalTaxable(_qty, _preTaxPrice); 
 		} else if (taxCode == 2) {
-			BigDecimal locExmpt = calcLocalExempt();
-//			preItemTax.add(locExmpt);
-//			BigDecimal preItemTax = locExmpt;
-			locExmpt.setScale(2, RoundingMode.HALF_UP);
-			System.out.println(locExmpt);
-			String finalAmt = locExmpt.toString();
-			return finalAmt;
+			tax = calcLocalExempt();
 		} else if (taxCode == 3) {
-			BigDecimal taxImpt = calcTaxableImported(_qty, _preTaxPrice);
-//			preItemTax.add(taxImpt);
-//			BigDecimal preItemTax = taxImpt;
-			taxImpt.setScale(2, RoundingMode.HALF_UP);
-			System.out.println(taxImpt);
-			String finalAmt = taxImpt.toString();
-			return finalAmt;
+			tax = calcTaxableImported(_qty, _preTaxPrice);
 		} else if (taxCode == 4) {
-			BigDecimal locEmpt = calcLocalExempt(_qty, _preTaxPrice);
-//			preItemTax.add(locEmpt);
-//			BigDecimal preItemTax = locEmpt;
-			locEmpt.setScale(2, RoundingMode.HALF_UP);
-			System.out.println(locEmpt);
-			String finalAmt = locEmpt.toString();
-			return finalAmt;
+			tax = calcLocalImpt(_qty, _preTaxPrice);
 		}
-//		System.out.println(preItemTax);
-		return preItemTax;
+		itemTax = round(tax);
+		return itemTax;
 	}
+	
+//	switch (taxCode) {
+//	case 1:
+//		tax = calcLocalTaxable(_qty, _preTaxPrice);
+//		break;
+//	case 2:
+//		tax = calcLocalExempt();
+//		break;
+//}
+//
+//tax.setScale(2, RoundingMode.HALF_UP);
+//
+//return tax;
 	
 	/* Calculate tax for Local + Taxable product */
 	public BigDecimal calcLocalTaxable(int _qty, BigDecimal _preTaxPrice) {
@@ -109,7 +95,7 @@ public class TaxCalculator {
 	}
 	
 	/* Calculate tax for Exempt + Imported product */
-	public BigDecimal calcLocalExempt(int _qty, BigDecimal _preTaxPrice) {
+	public BigDecimal calcLocalImpt(int _qty, BigDecimal _preTaxPrice) {
 		BigDecimal taxAmt3 = calcTaxByQuant(_qty, _preTaxPrice);
 		return taxAmt3.multiply(importTax);
 	}
@@ -117,6 +103,13 @@ public class TaxCalculator {
 	/* Calculate tax by quantity */
 	public BigDecimal calcTaxByQuant(int _qty, BigDecimal _preTaxPrice) {
 		return _preTaxPrice.multiply(new BigDecimal(_qty));
+	}
+	
+	/* Calculate round up tax to nearest .05% */
+	static BigDecimal round(BigDecimal preTax) {
+		BigDecimal finalTax =  new BigDecimal(Math.ceil(preTax.doubleValue() * 20) / 20);
+		System.out.println("line1: " + finalTax);
+		return finalTax.setScale(2, RoundingMode.HALF_UP);
 	}
 	
 }
