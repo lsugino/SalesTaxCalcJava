@@ -2,37 +2,44 @@ import java.io.*;
 import java.math.BigDecimal;
 
 public class FileParser {
-    
+	private File receipt;
+	private int quant;
+	private String desc;
+	private BigDecimal price;
+	private CartController cart;
+
 	// Constructor
-    public FileParser (File txtInput) {
-		parserController(txtInput);
+//    public FileParser (File textInput) {
+//		receipt = textInput;
+//		parserController(receipt);
+//    }
+    
+    // FileParser Constructor
+    public FileParser(File textInput, CartController myCart) {
+    	receipt = textInput;
+    	cart = myCart;
+    	parserController(receipt);
     }
 
-    public void parserController(File textInput) {
+    public void parserController(File receipt) {
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(textInput));
+            BufferedReader reader = new BufferedReader(new FileReader(receipt));
             String strLine;
           
             while ((strLine = reader.readLine()) != null) {
-            	
-            	/* Convert string to array of strings */
                 String[] splitArray = toStrArray(strLine);
-
-                /* Set first value in array to quantity */
-                int quant = getQuant(splitArray);
-                
-                /* Convert description values into a string */
-                String desc = formatDesc(splitArray);
-
-                /* Set last value to price */
-                BigDecimal price = getPrice(splitArray);
-                
-                /* Print out the Product */
-//                prodToString(quant, desc, price);
-                
+                quant = getQuant(splitArray);
+                desc = formatDesc(splitArray);
+                price = getPrice(splitArray);
+//              prodToString(quant, desc, price);                
                 Product newProd = new Product(quant, desc, price);
+                //FIXME add products to cart after product creation
+                cart.addToCart(newProd);
             }
             reader.close();
+            // Call to process cart
+            cart.processCart();
+            
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
         }
@@ -83,6 +90,18 @@ public class FileParser {
      public BigDecimal toBigDec(String strPrice) {
          BigDecimal bdPrice = new BigDecimal(strPrice);
          return bdPrice;
+     }
+     
+     public int getQuant() {
+    	 return quant;
+     }
+     
+     public String getdesc() {
+    	 return desc;
+     }
+     
+     public BigDecimal getPrice() {
+    	 return price;
      }
     
 }

@@ -6,13 +6,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Product {
-	private int _qty;
-	private String _itemDesc;
-	private BigDecimal _preTaxPrice;
-	private BigDecimal _postTaxPrice;
-	private boolean _isLocal;
-	private boolean _isTaxable;
-	private ArrayList<String> _exemptProducts;
+	int _qty;
+	String _itemDesc;
+	BigDecimal _preTaxPrice;
+	BigDecimal _postTaxPrice;
+	BigDecimal _taxOnly;
+	boolean _isLocal;
+	boolean _isTaxable;
+	ArrayList<String> _exemptProducts;
 	
 	/*	Product constructor	*/
 	public Product(int qty, String desc, BigDecimal price) {
@@ -22,7 +23,7 @@ public class Product {
 		getLocality(_itemDesc);
 		getExemptProducts();
 		getTaxability(_itemDesc, _exemptProducts);
-		TaxCalculator newCalc = new TaxCalculator(qty, _preTaxPrice, _isLocal, _isTaxable);
+		ProductTaxCalculator newCalc = new ProductTaxCalculator(qty, _preTaxPrice, _isLocal, _isTaxable);
 		prodInfoToString(_qty, _itemDesc, _preTaxPrice);
 	}
 	
@@ -58,9 +59,19 @@ public class Product {
 	
     /* Print product info */
     public void prodInfoToString(int _qty, String _itemDesc, BigDecimal _preTaxPrice) {
-    	System.out.println("Product = quant: " + _qty + " descrip: " + _itemDesc + "price: " + _preTaxPrice);
+    	System.out.println("Product = qty: " + _qty + " desc: " + _itemDesc + "price: " + _preTaxPrice);
     }
-//    
+    
+    /* Set item tax  */
+    public void setTax(BigDecimal tax) {
+    	_taxOnly = tax;
+    }
+    
+    /* set value of product + tax */
+    public void setPostTaxPrice(BigDecimal price, BigDecimal tax) {
+    	BigDecimal preTaxPrice = price;
+    	_postTaxPrice = preTaxPrice.add(tax);
+    }
 	
 //	double totalPrice;
 //	totalPrice = 0.00;
