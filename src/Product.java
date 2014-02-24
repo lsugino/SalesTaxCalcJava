@@ -24,7 +24,6 @@ public class Product {
 		getExemptProducts();
 		getTaxability(_itemDesc, _exemptProducts);
 		ProductTaxCalculator newCalc = new ProductTaxCalculator(qty, _preTaxPrice, _isLocal, _isTaxable);
-		prodInfoToString(_qty, _itemDesc, _preTaxPrice);
 	}
 	
 	public void getLocality(String _itemDesc) {
@@ -72,11 +71,5 @@ public class Product {
     	BigDecimal preTaxPrice = price;
     	_postTaxPrice = preTaxPrice.add(tax);
     }
-	
-//	double totalPrice;
-//	totalPrice = 0.00;
-//	for (int i = 0; i < allProducts.size (); i += 1) {
-//		//  The result of allProducts.get(i) is a Product		
-//		totalPrice += ((Product) allProducts.get(i)).price;
-//	}
+    
 }

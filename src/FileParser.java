@@ -8,12 +8,8 @@ public class FileParser {
 	private BigDecimal price;
 	private CartController cart;
 
-	// Constructor
-//    public FileParser (File textInput) {
-//		receipt = textInput;
-//		parserController(receipt);
-//    }
-    
+	public FileParser() {}
+	
     // FileParser Constructor
     public FileParser(File textInput, CartController myCart) {
     	receipt = textInput;
@@ -25,21 +21,17 @@ public class FileParser {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(receipt));
             String strLine;
-          
             while ((strLine = reader.readLine()) != null) {
                 String[] splitArray = toStrArray(strLine);
                 quant = getQuant(splitArray);
                 desc = formatDesc(splitArray);
                 price = getPrice(splitArray);
-//              prodToString(quant, desc, price);                
                 Product newProd = new Product(quant, desc, price);
-                //FIXME add products to cart after product creation
                 cart.addToCart(newProd);
             }
             reader.close();
-            // Call to process cart
             cart.processCart();
-            
+            cart.printReceipt();
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
         }
@@ -65,7 +57,7 @@ public class FileParser {
         for (int i = 1; i < splitArray.length - 2; i++){
              builder.append(splitArray[i] + " ");
         }
-        String desc = builder.toString();
+        String desc = builder.toString().trim();
         return desc;
     }
                 
@@ -74,11 +66,6 @@ public class FileParser {
     	 String strPrice = (splitArray[splitArray.length -1]);
     	 BigDecimal intPrice = toBigDec(strPrice);
     	 return intPrice;
-     }
-     
-     // add the last item in the original array and add to updated array
-     public void prodToString(int quant, String desc, BigDecimal price) {
-    	 System.out.println("Parser product = quant: " + quant + " description: " + desc + "price: " + price);
      }
      
      // turn string into integer
@@ -92,17 +79,5 @@ public class FileParser {
          return bdPrice;
      }
      
-     public int getQuant() {
-    	 return quant;
-     }
-     
-     public String getdesc() {
-    	 return desc;
-     }
-     
-     public BigDecimal getPrice() {
-    	 return price;
-     }
-    
 }
     		

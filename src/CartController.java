@@ -8,54 +8,39 @@ public class CartController {
 	BigDecimal _receiptTotal = BigDecimal.ZERO;
 	
 	/** Takes in PRODUCT adds to the cart. */
-	public void addToCart(Product merch) {
-		_cart.add(merch);
+	public void addToCart(Product product) {
+		_cart.add(product);
 	}
 	
 	/** When called, processes items in the cart. */
 	public void processCart(){
-		//FIXME
-		//calculate tax from the price of each individual product in the cart and sets the tax only price
+		// set tax amount of each item
 		for (Product prod : _cart) {
-			int quantity = prod._qty;
-			String description = prod._itemDesc;
-			BigDecimal preTax = prod._preTaxPrice;
-			boolean isLocal = prod._isLocal;
-			boolean isTaxable = prod._isTaxable;
-			
-			ProductTaxCalculator calcItemTax = new ProductTaxCalculator(quantity,
-					preTax, isLocal, isTaxable);
+			ProductTaxCalculator calcItemTax = new ProductTaxCalculator(prod._qty, 
+					prod._preTaxPrice, prod._isLocal, prod._isTaxable);
 			BigDecimal taxOnly = calcItemTax.getItemTax();
 			prod.setTax(taxOnly);
-			System.out.println(prod._taxOnly);
 		}	
-		//find the total tax
+		// calculate the total tax
 		for (Product prod : _cart) {
 			_totalTax = _totalTax.add(prod._taxOnly);		
 		}
-		System.out.println(_totalTax);
-		//find product + tax price
+		// find product + tax price
 		for (Product prod : _cart) {
 			prod.setPostTaxPrice(prod._preTaxPrice, prod._taxOnly);
-			System.out.println(prod._postTaxPrice);	
 		}
-//		System.out.println(prod._postTaxPrice);
-		
-		for (Product prod : _cart) {
-			
-		}
-		
-		//find the total price
+		//find the total receipt price
 		for (Product prod : _cart)  {
-//			_receiptTotal = _receiptTotal.add(prod._preTaxPrice + prod._taxOnly)
+			_receiptTotal = _receiptTotal.add(prod._postTaxPrice);
 		}
-		//print receipt from above calculations
 	}	
-		
-		/* get quantity, description and price from parser */
-//		FileParser receiptFile = new FileParser(receipt);
-//		receiptFile.parserController(receipt);
-//		receiptFile.getQuant();
-		
 	
+	// Print receipt
+	public void printReceipt() {
+		for (Product prod : _cart)  {
+			System.out.println(prod._qty + " " + prod._itemDesc + ": " + prod._postTaxPrice);
+		}
+		System.out.println("Sales Taxes: " + _totalTax);
+		System.out.println("Total: " + _receiptTotal);
+	}
 }

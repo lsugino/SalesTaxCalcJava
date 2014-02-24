@@ -6,7 +6,6 @@ public class Main {
 		
 		CartController newCart = new CartController();
 	
-//		FileParser cart = new FileParser()
 		FileParser textInput = new FileParser(receipt, newCart);
 	}
 }
