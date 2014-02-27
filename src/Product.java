@@ -17,7 +17,7 @@ public class Product {
 	
 	public Product() {}
 	
-	/*	Product constructor	*/
+	/**	Product constructor	*/
 	public Product(int qty, String desc, BigDecimal price) {
 		_qty = qty;
 		_itemDesc = desc;
@@ -28,10 +28,12 @@ public class Product {
 		ProductTaxCalculator newCalc = new ProductTaxCalculator(qty, _preTaxPrice, _isLocal, _isTaxable);
 	}
 	
+	/** Check if item is domestic or imported */
 	public void getLocality(String _itemDesc) {
 		if (_itemDesc.matches(".*\\bimported\\b.*")) _isLocal = false; else _isLocal = true; 
 	}
-//	
+
+	/** Check if item is taxable or exempt */
 	public boolean getTaxability(String _itemDesc, ArrayList<String> _exemptProducts) {
 		int taxable = 0;
 		for (String word : _itemDesc.split("\\s+")){
@@ -52,23 +54,19 @@ public class Product {
 		}
 	}
 	
+	/** Grab exempt list txt file and set to _exemptProducts */
 	public void getExemptProducts() {
 		File exemptList = new File("/Users/lsugino/Documents/workspace/SalesTaxJava/ExemptProducts");
 		ExemptProductParser exemptToParse = new ExemptProductParser(exemptList);
 		_exemptProducts = exemptToParse.getExemptArray();
 	}
-	
-    /* Print product info */
-    public void prodInfoToString(int _qty, String _itemDesc, BigDecimal _preTaxPrice) {
-    	System.out.println("Product = qty: " + _qty + " desc: " + _itemDesc + "price: " + _preTaxPrice);
-    }
     
-    /* Set item tax  */
+    // Set item tax
     public void setTax(BigDecimal tax) {
     	_taxOnly = tax;
     }
     
-    /* set value of product + tax */
+    // set value of product + tax
     public void setPostTaxPrice(BigDecimal price, BigDecimal tax) {
     	BigDecimal preTaxPrice = price;
     	_postTaxPrice = preTaxPrice.add(tax);

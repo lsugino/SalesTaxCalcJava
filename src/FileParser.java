@@ -6,19 +6,19 @@ public class FileParser {
 	private int quant;
 	private String desc;
 	private BigDecimal price;
-	private CartController cart;
+	private Cart cart;
 
 	public FileParser() {}
 	
     /** FileParser Constructor */
-    public FileParser(File textInput, CartController myCart) {
+    public FileParser(File textInput, Cart myCart) {
     	receipt = textInput;
     	cart = myCart;
-    	cartController(receipt);
+    	parserController(receipt);
     }
     
     /** Takes input file, parses it, and adds to cart */
-    public void cartController(File receipt) {
+    public void parserController(File receipt) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(receipt));
             String strLine;
@@ -31,8 +31,7 @@ public class FileParser {
                 cart.addToCart(newProd);
             }
             reader.close();
-            cart.processCart();
-            cart.printReceipt();
+            Cart myCart = new Cart(cart);
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
         }

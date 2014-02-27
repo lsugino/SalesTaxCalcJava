@@ -7,7 +7,7 @@ public class Main {
 		 */
 		File receipt = new File("/Users/lsugino/Dropbox/Programming/SalesTax-Calculator/Input3.txt");
 		
-		CartController newCart = new CartController();
+		Cart newCart = new Cart();
 		FileParser textInput = new FileParser(receipt, newCart);
 	}
 }

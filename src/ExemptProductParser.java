@@ -6,12 +6,10 @@ import java.util.Scanner;
 public class ExemptProductParser {
 	private ArrayList<String> exemptArray;
 	
+	/** Constructs Exempt Product Parser */
 	public ExemptProductParser (File exemptList) {
 		ArrayList<String> exemptArr = new ArrayList<String>();
 		exemptArray = exemptParser(exemptList, exemptArr);
-		
-        /* Print out test */
-//		exemptToString(exemptArray);
 	}
 	
 	public ArrayList<String> exemptParser (File exemptList, ArrayList<String> exemptArr) {
@@ -21,18 +19,12 @@ public class ExemptProductParser {
         	    exemptArr.add(in.nextLine());
         	}
         	    Collections.sort(exemptArr);
-        	for(int i=0; i<exemptArr.size(); ++i){
-//        		System.out.println(exemptArr.get(i));
-        	}
+        	for(int i=0; i<exemptArr.size(); ++i){}
         }
         catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
         }
         return exemptArr;
-	}
-	
-	public void exemptToString(ArrayList<String> exemptArray) {
-		System.out.println(exemptArray.get(0) + " " + exemptArray.get(1) +" " + exemptArray.get(2) +" " + exemptArray.get(3) + " " + exemptArray.get(4) +" " + exemptArray.get(5));
 	}
 	
     public ArrayList<String> getExemptArray() {

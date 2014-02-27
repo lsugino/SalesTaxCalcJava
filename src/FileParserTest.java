@@ -1,6 +1,5 @@
 import static org.junit.Assert.*;
 
-import java.io.File;
 import java.math.BigDecimal;
 
 import org.junit.Test;
@@ -10,19 +9,6 @@ public class FileParserTest {
 	FileParser testParser = new FileParser();
 	String[] arrDesc = new String[]{"1", "box", "of", "coco", "at", "2.00"};
 	String[] arrDesc2 = new String[]{"3", "bottles", "of", "imported", "beer", "at", "12.99"};
-	
-//	@Test
-//	public void testFileParser() {
-//		File testReceipt = new File("/Users/lsugino/Dropbox/Programming/SalesTax-Calculator/Input3.txt");
-//		FileParser testInput = new FileParser(testReceipt);
-//		testInput.parserController(testReceipt);
-//	}
-	
-//	public void testParserController() {
-//		File testReceipt = new File("/Users/lsugino/Dropbox/Programming/SalesTax-Calculator/Input3.txt");
-//		FileParser testInput = new FileParser(testReceipt);
-//		testInput.parserController(testReceipt);
-//	}
 
 	@Test
 	public void testToStringArray() {
