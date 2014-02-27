@@ -1,11 +1,10 @@
 Sales Tax Calculator - Java
 ===========================
 
-- java version "1.6.0_65"
 - Takes items and prints out the receipt details
+- java version "1.6.0_65"
 
-Instructions:
-- change input file to print corresponding receipt (Input1.txt, Input2.txt, Input2.txt)
+Instructions: Change input file to print corresponding receipt (Input1.txt, Input2.txt, Input2.txt)
 
 Problem:
 Basic sales tax is applicable at a rate of 10% on all goods, except books, food, and medical products that are exempt. Import duty is an additional sales tax applicable on all imported goods at a rate of 5%, with no exemptions.
@@ -52,4 +51,3 @@ Output 3:
 1 imported box of chocolates: 11.85
 Sales Taxes: 6.70
 Total: 74.68
-==========
