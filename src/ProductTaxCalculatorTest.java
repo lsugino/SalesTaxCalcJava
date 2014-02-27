@@ -6,25 +6,14 @@ import org.junit.Test;
 
 
 public class ProductTaxCalculatorTest {
-
-//	@Test
-//	public void main() {
-//		TaxCalculator testCalc = new TaxCalculator(1, 2.99, true, true);
-//	}
+	ProductTaxCalculator testCalc = new ProductTaxCalculator();
 	
 	@Test
-	public void testCheckTaxAmt() {
+	public void testCalcTax() {
 		int _qty = 1;
-		BigDecimal _preTaxPrice = new BigDecimal(2.99);
-		boolean _isLocal = true;
-		boolean _isTaxable = true;
-		
-//		ProductTaxCalculator testCalc = new ProductTaxCalculator(int _qty, BigDecimal _preTaxPrice, boolean _isLocal, boolean _isTaxable);		
-		
-//		assertEquals(1, testCalc.checkTaxAmt(true, true));
-//	    assertEquals(2, testCalc.checkTaxAmt(true, false));
-//	    assertEquals(3, testCalc.checkTaxAmt(false, true));
-//	    assertEquals(4, testCalc.checkTaxAmt(false, false));
+		BigDecimal _preTaxPrice = new BigDecimal("27.99");
+		int taxCode = 3;
+		BigDecimal expected = new BigDecimal("4.20");
+		assertEquals(expected, testCalc.calcTax(_qty, _preTaxPrice, taxCode));
 	}
-
 }

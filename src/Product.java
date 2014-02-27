@@ -15,6 +15,8 @@ public class Product {
 	boolean _isTaxable;
 	ArrayList<String> _exemptProducts;
 	
+	public Product() {}
+	
 	/*	Product constructor	*/
 	public Product(int qty, String desc, BigDecimal price) {
 		_qty = qty;
@@ -37,10 +39,10 @@ public class Product {
 				taxable++;
 			}
 		}
-		return isTaxable(taxable);
+		return getIsTaxable(taxable);
 	}
 	
-	public boolean isTaxable(int taxable) {
+	public boolean getIsTaxable(int taxable) {
 		if (taxable == 1) {
 			_isTaxable = false;
 			return false;

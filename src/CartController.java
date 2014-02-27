@@ -19,6 +19,7 @@ public class CartController {
 			ProductTaxCalculator calcItemTax = new ProductTaxCalculator(prod._qty, 
 					prod._preTaxPrice, prod._isLocal, prod._isTaxable);
 			BigDecimal taxOnly = calcItemTax.getItemTax();
+			System.out.println("item tax: " + taxOnly);
 			prod.setTax(taxOnly);
 		}	
 		// calculate the total tax
@@ -29,7 +30,7 @@ public class CartController {
 		for (Product prod : _cart) {
 			prod.setPostTaxPrice(prod._preTaxPrice, prod._taxOnly);
 		}
-		//find the total receipt price
+		// find the total receipt price
 		for (Product prod : _cart)  {
 			_receiptTotal = _receiptTotal.add(prod._postTaxPrice);
 		}

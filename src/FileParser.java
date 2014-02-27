@@ -10,22 +10,23 @@ public class FileParser {
 
 	public FileParser() {}
 	
-    // FileParser Constructor
+    /** FileParser Constructor */
     public FileParser(File textInput, CartController myCart) {
     	receipt = textInput;
     	cart = myCart;
-    	parserController(receipt);
+    	cartController(receipt);
     }
-
-    public void parserController(File receipt) {
+    
+    /** Takes input file, parses it, and adds to cart */
+    public void cartController(File receipt) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(receipt));
             String strLine;
             while ((strLine = reader.readLine()) != null) {
                 String[] splitArray = toStrArray(strLine);
-                quant = getQuant(splitArray);
-                desc = formatDesc(splitArray);
-                price = getPrice(splitArray);
+                getQuant(splitArray);
+                formatDesc(splitArray);
+                getPrice(splitArray);
                 Product newProd = new Product(quant, desc, price);
                 cart.addToCart(newProd);
             }
@@ -37,43 +38,42 @@ public class FileParser {
         }
 	}
 
-    // Split each word and put it into a string array 
+    /** Split each word and put it into a string array */ 
 	public String[] toStrArray(String strLine) {
 		String[] splitArray = strLine.split(" ");
         return splitArray;
     }
     
+	/** Get first value in array and assign to quantity */
     public int getQuant(String[] splitArray) {
       String strQuant = splitArray[0];
-      int intQuant = Integer.parseInt(strQuant);
-      return intQuant;
+      quant = Integer.parseInt(strQuant);
+      return quant;
     }
 
-    // build a string for the description      
+    /** Build a string description */    
     public String formatDesc(String[] splitArray) {
         StringBuilder builder = new StringBuilder(splitArray.length);
-
-        // grab the description and put into a string
         for (int i = 1; i < splitArray.length - 2; i++){
              builder.append(splitArray[i] + " ");
         }
-        String desc = builder.toString().trim();
+        desc = builder.toString().trim();
         return desc;
     }
                 
-    // add the last item in the original array and add to updated array
+    /** Add the last item in the original array and add to updated array */
      public BigDecimal getPrice(String[] splitArray) {
     	 String strPrice = (splitArray[splitArray.length -1]);
-    	 BigDecimal intPrice = toBigDec(strPrice);
-    	 return intPrice;
+    	 price = toBigDec(strPrice);
+    	 return price;
      }
      
-     // turn string into integer
+     // Turn string into integer
      public int toInteger(String strNum) {
          return Integer.parseInt(strNum);
      }
      
-     // turn string into a big decimal
+     // Turn string into a big decimal
      public BigDecimal toBigDec(String strPrice) {
          BigDecimal bdPrice = new BigDecimal(strPrice);
          return bdPrice;

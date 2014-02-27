@@ -5,7 +5,7 @@ import org.junit.Test;
 
 public class CartControllerTest {
 
-	@Test
+//	@Test
 //	public void testAddToCart() {
 //		int expected = 4;
 //		CartController testCart = new CartController();
